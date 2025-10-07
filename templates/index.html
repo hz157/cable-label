@@ -1,0 +1,64 @@
+<!--
+ * @Author: Ryan Zhang
+ * @Date: 2025-08-08 21:37:46
+ * @LastEditors:Ryan Zhang
+ * @Email: ryanzhang@bytesycn.com
+ * @LastEditTime: 2025-10-07 08:24:42
+ * @FilePath: \templates\index.html
+ * @Repositories: https://github.com/hz157/cable-label
+ * @Description: 
+ * 
+ * Copyright (c) 2025 by Ryan Zhang, All Rights Reserved. 
+-->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bytesycn - cable label</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="glass-card">
+            <h1>上传文件</h1>
+            <p>请选择一个 Excel 文件并选择一个样式。</p>
+            
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <div class="file-upload">
+                    <label for="file-upload" class="custom-file-upload">
+                        <span>选择文件</span>
+                    </label>
+                    <input type="file" name="file" id="file-upload" required accept=".xlsx, .xls">
+                    <div id="file-preview" class="file-preview">未选择文件</div>
+                </div>
+                
+                <div class="style-selection">
+                    <label for="style">选择样式：</label>
+                    <select name="style_index" id="style" required onchange="updateStylePreview()">
+                        {% for index, style in style_list %}
+                            <option value="{{ index }}">{{ index }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- 样式预览区域 -->
+                <div id="style-preview" class="style-preview">
+                    <p>样式预览：</p>
+                    <pre id="style-preview-text">{{ style_list[0][1] }}</pre>
+                </div>
+
+                <button type="submit" class="submit-btn">上传文件</button>
+            </form>
+            
+            <a href="/download-template" class="download-link">下载模板</a>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>
